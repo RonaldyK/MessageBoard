@@ -1,4 +1,8 @@
-using MessageBoard.Components;
+using MessageBoard.Application.Interfaces;
+using MessageBoard.Infrastructure.Context;
+using MessageBoard.Infrastructure.Repositories;
+using MessageBoard.UI.Components;
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
+
+builder.Services.AddDbContextFactory<MessageDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
 
 var app = builder.Build();
