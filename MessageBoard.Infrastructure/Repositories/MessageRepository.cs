@@ -24,5 +24,13 @@ namespace MessageBoard.Infrastructure.Repositories
             await _context.SaveChangesAsync();  
         }
 
+        public async Task<List<Message>> GetAllAsync()
+        {
+            Console.WriteLine("Db call made");
+            var messages = await _context.Messages
+                .OrderByDescending(m => m.CreatedAt)
+                .ToListAsync();
+            return messages;
+        }
     }
 }

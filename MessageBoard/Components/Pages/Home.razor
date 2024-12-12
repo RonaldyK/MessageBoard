@@ -1,7 +1,97 @@
 ﻿@page "/"
+@using MessageBoard.Application.Interfaces
+@using MessageBoard.Domain.Entities
+@inject IMessageRepository MessageRepository
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Message Board</PageTitle>
 
-<h1>Hello, world!</h1>
+<MudContainer Class="d-flex flex-column gap-4 justify-center">
+	<MudContainer>
+		<EditForm Enhance Model="Message" OnValidSubmit="AddMessage" FormName="AddMessageForm">
+			<DataAnnotationsValidator/>
+			<MudGrid>
+				<MudItem xs="12" sm="7">
+					<MudCard>
+						<MudCardContent>
+							<MudTextField Label="Title" Variant="@Variant.Outlined" HelperText="Max. 100 characters"
+							@bind-Value="Message.Title" For="@(() => Message.Title)"/>
+							<MudTextField Label="Caption" Variant="@Variant.Outlined" AutoGrow Lines="3" HelperText="Max. 500 characters" Class="mt-3"
+							@bind-Value="Message.Caption" For="@(() => Message.Caption)"/>
+						</MudCardContent>
+						<MudCardActions>
+							<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Post</MudButton>
+						</MudCardActions>
+					</MudCard>
+				</MudItem>
+			</MudGrid>
+		</EditForm>
+	</MudContainer>
 
-Welcome to your new app.
+	@* Display messages *@
+	<MudContainer>
+		@if (Messages.Count == 0)
+		{
+			<MudProgressCircular Color="Color.Default" Indeterminate="true" />
+		}
+		else
+		{
+
+			<MudStack Wrap="Wrap.Wrap" Spacing="4" Row="true" AlignItems="AlignItems.Start" Justify="Justify.SpaceEvenly">
+				@foreach (var message in Messages)
+				{
+					<MudCard>
+						<MudCardHeader>
+							<CardHeaderAvatar>
+								<MudAvatar>@message.Id</MudAvatar>
+							</CardHeaderAvatar>
+							<CardHeaderContent>
+								<MudText Typo="Typo.body1">@message.Title</MudText>
+								<MudText Typo="Typo.body2">@message.CreatedAt</MudText>
+							</CardHeaderContent>
+							@* <CardHeaderActions>
+					<MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
+				</CardHeaderActions> *@
+						</MudCardHeader>
+						@* <MudCardMedia Image="images/pilars.jpg" Height="250" /> *@
+						<MudCardContent>
+							<MudText Typo="Typo.body2">@message.Caption</MudText>
+						</MudCardContent>
+						@* <MudCardActions>
+			<MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Default" />
+			<MudIconButton Icon="@Icons.Material.Filled.Share" Color="Color.Default" />
+		</MudCardActions> *@
+					</MudCard>
+				}
+			</MudStack>
+
+		}
+	</MudContainer>
+
+</MudContainer>
+
+
+@code
+{
+	[SupplyParameterFromForm] private Message Message { get; set; } = new();
+
+	private List<Message> Messages { get; set; } = [];
+
+	private async Task LoadMessagesAsync()
+	{
+		Messages = await MessageRepository.GetAllAsync();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		await LoadMessagesAsync();
+	}
+
+	private async Task AddMessage()
+	{
+		await MessageRepository.AddAsync(Message);
+
+		Message = new Message();
+		await LoadMessagesAsync();
+	}
+
+}

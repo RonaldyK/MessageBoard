@@ -6,20 +6,21 @@
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar>
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        My Application
-    </MudAppBar>
-    <MudDrawer @bind-Open="@_drawerOpen">
+	<MudAppBar>
+		@* <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /> *@
+		Message Board
+	</MudAppBar>
+	@* Drawer is hidden for now *@
+    @* <MudDrawer @bind-Open="@_drawerOpen">
         <MyNavMenu/>
-    </MudDrawer>
+    </MudDrawer> *@
     <MudMainContent>
         @Body
     </MudMainContent>
 </MudLayout>
 
 @code {
-    bool _drawerOpen = true;
+    bool _drawerOpen = false;
 
     void DrawerToggle()
     {

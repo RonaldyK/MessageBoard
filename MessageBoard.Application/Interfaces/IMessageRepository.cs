@@ -11,5 +11,6 @@ namespace MessageBoard.Application.Interfaces
     public interface IMessageRepository
     {
         Task AddAsync(Message message);
+        Task<List<Message>> GetAllAsync();
     }
 }

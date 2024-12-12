@@ -16,9 +16,9 @@ namespace MessageBoard.Domain.Entities
         [Required(ErrorMessage = "Title is required")]
         [StringLength(100, ErrorMessage = "Title can't be longer then 100 characters")]
         public string Title { set; get; }
-        
+
         [StringLength(500)]
-        public string Caption { set; get; }
+        public string Caption { set; get; } = string.Empty;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime CreatedAt { set; get; } = DateTime.Now;

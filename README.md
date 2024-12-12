@@ -24,12 +24,13 @@ So persistance is achived by a simple SQL database powered by Entity Framework, 
 I have only outlined two primary use cases for now to keep things simple but I plan on adding more as the scope of the project grows.
 
 ## General todos
-- [ ] Initialize the project directories with respect to the clean architecture design pattern.
-- [ ] Define the entities/domain/models.
-- [ ] Define the business logic/interfaces
-- [ ] Implement the buisness logic/interfaces
-- [ ] Define the repository class.
+- [x] Initialize the project directories with respect to the clean architecture design pattern.
+- [x] Define the entities/domain/models.
+- [x] Define the business logic/interfaces
+- [x] Implement the buisness logic/interfaces
+- [x] Define the repository class.
+- [x] Set up dependency injection
 - [ ] Implement data validation and error handling
-- [ ] Set up dependency injection
 - [ ] Create unit tests for business logic
 - [ ] Implement logging
+- [ ] Figure out prerendering
