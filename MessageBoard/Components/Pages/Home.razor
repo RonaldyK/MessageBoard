@@ -5,68 +5,69 @@
 
 <PageTitle>Message Board</PageTitle>
 
-<MudContainer Class="d-flex flex-column gap-4 justify-center">
-	<MudContainer>
+<MudContainer MaxWidth="MaxWidth.Medium" Class="pa-4">
+	<MudPaper Class="pa-4 mb-4" Elevation="3">
 		<EditForm Enhance Model="Message" OnValidSubmit="AddMessage" FormName="AddMessageForm">
 			<DataAnnotationsValidator/>
 			<MudGrid>
-				<MudItem xs="12" sm="7">
-					<MudCard>
+				<MudItem xs="12">
+					<MudCard Elevation="2">
 						<MudCardContent>
-							<MudTextField Label="Title" Variant="@Variant.Outlined" HelperText="Max. 100 characters"
+							<MudTextField T="string" Label="Title" Variant="@Variant.Outlined" HelperText="Max. 100 characters" Class="mb-3"
 							@bind-Value="Message.Title" For="@(() => Message.Title)"/>
-							<MudTextField Label="Caption" Variant="@Variant.Outlined" AutoGrow Lines="3" HelperText="Max. 500 characters" Class="mt-3"
+							<MudTextField T="string" Label="Caption" Variant="@Variant.Outlined" AutoGrow Lines="3" HelperText="Max. 500 characters" Class="mb-3"
 							@bind-Value="Message.Caption" For="@(() => Message.Caption)"/>
 						</MudCardContent>
 						<MudCardActions>
-							<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Post</MudButton>
+							<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mt-2" FullWidth="true">Post Message</MudButton>
 						</MudCardActions>
 					</MudCard>
 				</MudItem>
 			</MudGrid>
 		</EditForm>
-	</MudContainer>
+	</MudPaper>
 
 	@* Display messages *@
-	<MudContainer>
+	
 		@if (Messages.Count == 0)
 		{
-			<MudProgressCircular Color="Color.Default" Indeterminate="true" />
+			<MudStack Justify="Justify.Center" AlignItems="AlignItems.Center" Class="mt-8">
+				<MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+				<MudText Typo="Typo.body2" Class="mt-4">Loading messages...</MudText>
+			</MudStack>
 		}
 		else
 		{
 
-			<MudStack Wrap="Wrap.Wrap" Spacing="4" Row="true" AlignItems="AlignItems.Start" Justify="Justify.SpaceEvenly">
+			<MudStack Spacing="4">
 				@foreach (var message in Messages)
 				{
-					<MudCard>
-						<MudCardHeader>
-							<CardHeaderAvatar>
-								<MudAvatar>@message.Id</MudAvatar>
-							</CardHeaderAvatar>
-							<CardHeaderContent>
-								<MudText Typo="Typo.body1">@message.Title</MudText>
-								<MudText Typo="Typo.body2">@message.CreatedAt</MudText>
-							</CardHeaderContent>
-							@* <CardHeaderActions>
+						<MudCard Elevation="2">
+							<MudCardHeader>
+								<CardHeaderAvatar>
+									<MudAvatar Color="Color.Primary">@message.Id</MudAvatar>
+								</CardHeaderAvatar>
+								<CardHeaderContent>
+									<MudText Typo="Typo.subtitle1">@message.Title</MudText>
+									<MudText Typo="Typo.caption">Posted @message.CreatedAt</MudText>
+								</CardHeaderContent>
+								@* <CardHeaderActions>
 					<MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" />
 				</CardHeaderActions> *@
-						</MudCardHeader>
-						@* <MudCardMedia Image="images/pilars.jpg" Height="250" /> *@
-						<MudCardContent>
-							<MudText Typo="Typo.body2">@message.Caption</MudText>
-						</MudCardContent>
-						@* <MudCardActions>
+							</MudCardHeader>
+							@* <MudCardMedia Image="images/pilars.jpg" Height="250" /> *@
+							<MudCardContent>
+								<MudText Typo="Typo.body2">@message.Caption</MudText>
+							</MudCardContent>
+							@* <MudCardActions>
 			<MudIconButton Icon="@Icons.Material.Filled.Favorite" Color="Color.Default" />
 			<MudIconButton Icon="@Icons.Material.Filled.Share" Color="Color.Default" />
 		</MudCardActions> *@
-					</MudCard>
+						</MudCard>
 				}
 			</MudStack>
 
 		}
-	</MudContainer>
-
 </MudContainer>
 
 

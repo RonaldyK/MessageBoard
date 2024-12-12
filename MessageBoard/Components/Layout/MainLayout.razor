@@ -1,27 +1,55 @@
-﻿@inherits LayoutComponentBase
+﻿@using MudBlazor.Utilities
+@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme = "_myCustomTheme"/>
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-	<MudAppBar>
+	<MudAppBar Elevation="4">
 		@* <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /> *@
-		Message Board
+		<MudText Typo="Typo.h6" Class="ml-4">Message Board</MudText>
 	</MudAppBar>
 	@* Drawer is hidden for now *@
-    @* <MudDrawer @bind-Open="@_drawerOpen">
+	@* <MudDrawer @bind-Open="@_drawerOpen">
         <MyNavMenu/>
     </MudDrawer> *@
-    <MudMainContent>
-        @Body
-    </MudMainContent>
+	<MudMainContent>
+		@Body
+	</MudMainContent>
 </MudLayout>
 
 @code {
-    bool _drawerOpen = false;
+	bool _drawerOpen = false;
 
+	MudTheme _myCustomTheme = new MudTheme()
+    {
+	    PaletteLight = new PaletteLight()
+	    {
+		    Primary = Colors.DeepPurple.Lighten1,
+		    Secondary = Colors.Pink.Lighten2,
+		    AppbarBackground = Colors.DeepPurple.Lighten4,
+		    Background = Colors.Gray.Lighten5,
+		    Surface = Colors.Shades.White,
+		    TextPrimary = Colors.Gray.Darken4,
+		    TextSecondary = Colors.Gray.Darken2,
+		    ActionDefault = Colors.Pink.Default,
+		    ActionDisabled = Colors.Gray.Lighten1,
+		    ActionDisabledBackground = Colors.Gray.Lighten3,
+	    },
+	    Typography = new Typography()
+	    {
+		    Default = new Default()
+			{
+				FontFamily = new[] { "Roboto", "Arial", "sans-serif" },
+			    FontSize = "1rem",
+		    },
+		    H6 = new H6() { FontWeight = 600, FontSize = "1.25rem" },
+		    Button = new Button() { FontWeight = 500, TextTransform = "none" },
+		    Subtitle2 = new Subtitle2() { FontSize = "0.875rem", FontWeight = 400 },
+	    }
+    };
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
