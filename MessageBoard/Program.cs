@@ -12,10 +12,18 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddMudServices();
 
-builder.Services.AddDbContextFactory<MessageDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContextFactory<MessageDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
+else
+{
+    builder.Services.AddDbContextFactory<MessageDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
+
+}
 
 var app = builder.Build();
 
